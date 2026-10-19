@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="ca" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cicles Formatius d'Informàtica - FP</title>
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            --hero-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #1e1b4b 100%);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: var(--hero-gradient);
+            color: white;
+            padding: 4rem 0 5rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(59,130,246,0.15) 0%, rgba(255,255,255,0) 50%);
+            pointer-events: none;
+        }
+
+        /* Card Customization */
+        .cycle-card {
+            border: none;
+            border-radius: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            background: var(--bs-body-bg);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+
+        .cycle-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .card-badge {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.35rem 0.75rem;
+            border-radius: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .badge-gm {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+
+        .badge-gs {
+            background-color: #e0e7ff;
+            color: #3730a3;
+        }
+
+        /* Theme Toggle Button */
+        .btn-theme-toggle {
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Custom Buttons */
+        .btn-primary-custom {
+            background: var(--primary-gradient);
+            border: none;
+            color: white;
+            font-weight: 500;
+            transition: opacity 0.2s;
+        }
+
+        .btn-primary-custom:hover {
+            opacity: 0.95;
+            color: white;
+        }
+
+        /* Modal Table Customization */
+        .table-modules th {
+            background-color: var(--bs-tertiary-bg);
+            font-weight: 600;
+        }
+
+        /* Filter Pills */
+        .nav-pills .nav-link {
+            border-radius: 2rem;
+            padding: 0.5rem 1.25rem;
+            font-weight: 500;
+            color: var(--bs-body-color);
+            border: 1px solid var(--bs-border-color);
+            margin: 0 0.25rem;
+        }
+
+        .nav-pills .nav-link.active {
+            background-color: #2563eb;
+            color: white;
+            border-color: #2563eb;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navegació Principal -->
+    <nav class="navbar navbar-expand-lg border-bottom sticky-top bg-body">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2 font-weight-bold fw-bold text-primary" href="#">
+                <i class="bi bi-laptop fs-3"></i>
+                <span>FP Informàtica</span>
+            </a>
+            
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#cicles">Cicles Formatius</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#comparativa">Comparativa</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#fct">Pràctiques (FCT/Dual)</a>
+                    </li>
+                </ul>
+
+                <div class="d-flex align-items-center gap-3">
+                    <button class="btn btn-outline-secondary btn-theme-toggle" id="themeToggle" title="Canviar tema">
+                        <i class="bi bi-moon-stars" id="themeIcon"></i>
+                    </button>
+                    <a href="#cicles" class="btn btn-primary-custom px-3 py-2 rounded-pill">
+                        Explorar Cicles
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Header -->
+    <header class="hero-section text-center">
+        <div class="container position-relative">
+            <span class="badge bg-primary-subtle text-primary mb-3 px-3 py-2 rounded-pill fw-semibold">
+                Formació Professional 2026-2027
+            </span>
+            <h1 class="display-4 fw-bold mb-3">Construïm el teu futur digital</h1>
+            <p class="lead text-light-50 max-w-2xl mx-auto mb-4 text-secondary-light" style="max-width: 650px;">
+                Descobreix la millor oferta de Cicles Formatius de Grau Mitjà i Superior en la família d'Informàtica i Comunicacions.
+            </p>
+            
+            <!-- Cerca Ràpida -->
+            <div class="row justify-content-center mt-4">
+                <div class="col-md-8 col-lg-6">
+                    <div class="input-group input-group-lg shadow-sm rounded-pill overflow-hidden bg-body p-1 border">
+                        <span class="input-group-text bg-transparent border-0 pe-1">
+                            <i class="bi bi-search text-muted"></i>
+                        </span>
+                        <input type="text" id="searchInput" class="form-control border-0 shadow-none fs-6" placeholder="Cerca per nom, codi o tecnologia (ex: Web, Xarxes, Python)...">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Secció Principal de Cicles -->
+    <main class="container my-5" id="cicles">
+        
+        <!-- Controls de Filtre -->
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4 gap-3">
+            <div>
+                <h2 class="fw-bold m-0">Oferta Formativa</h2>
+                <p class="text-muted small m-0">Selecciona un cicle per veure el pla d'estudis complet</p>
+            </div>
+
+            <!-- Filtres per Categoria -->
+            <ul class="nav nav-pills" id="filterPills">
+                <li class="nav-item">
+                    <button class="nav-link active" data-filter="all">Tots els cicles</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-filter="GM">Grau Mitjà</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-filter="GS">Grau Superior</button>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Grella de Targetes de Cicles -->
+        <div class="row g-4" id="cyclesGrid">
+            <!-- S'omplirà dinàmicament amb JavaScript -->
+        </div>
+
+        <!-- Missatge sense resultats -->
+        <div id="noResults" class="text-center py-5 d-none">
+            <i class="bi bi-search fs-1 text-muted d-block mb-3"></i>
+            <h4 class="fw-bold">No s'han trobat cicles formatius</h4>
+            <p class="text-muted">Prova amb una altra cerca o canvia el filtre seleccionat.</p>
+        </div>
+
+        <!-- Secció de Comparativa Ràpida -->
+        <section id="comparativa" class="mt-5 pt-5 border-top">
+            <h3 class="fw-bold mb-4 text-center">Quin cicle triar?</h3>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="p-4 rounded-4 bg-body-tertiary h-100 border">
+                        <div class="text-primary fs-2 mb-2"><i class="bi bi-tools"></i></div>
+                        <h5 class="fw-bold">Manteniment i Xarxes</h5>
+                        <p class="text-muted small">Més enfocat al maquinari, muntatge d'equips, administració bàsica de xarxes i suport a usuaris (SMX).</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-4 rounded-4 bg-body-tertiary h-100 border">
+                        <div class="text-primary fs-2 mb-2"><i class="bi bi-code-slash"></i></div>
+                        <h5 class="fw-bold">Desenvolupament (Software/Web)</h5>
+                        <p class="text-muted small">Orientat a la programació d'aplicacions mòbils, eines empresarials (DAM) o webs i plataformes online (DAW).</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-4 rounded-4 bg-body-tertiary h-100 border">
+                        <div class="text-primary fs-2 mb-2"><i class="bi bi-server"></i></div>
+                        <h5 class="fw-bold">Sistemes i Cloud</h5>
+                        <p class="text-muted small">Especialitzat en la gestió de servidors, seguretat, bases de dades avançades i entorns Cloud (ASIX).</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Secció FCT / Dual -->
+        <section id="fct" class="mt-5 p-4 rounded-4 bg-primary text-white position-relative overflow-hidden">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h3 class="fw-bold mb-2">Formació en Centres de Treball (FCT) i Modalitat DUAL</h3>
+                    <p class="mb-0 text-white-50">
+                        Tots els cicles formatius inclouen mòduls pràctics en empreses del sector tecnològic. 
+                        Podràs aplicar els teus coneixements en entorns reals de treball i augmentar la teva inserció laboral.
+                    </p>
+                </div>
+                <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
+                    <button class="btn btn-light btn-lg rounded-pill text-primary fw-semibold" onclick="alert('Consulta la Secretaria del teu centre per a més detalls sobre la modalitat Dual.')">
+                        Més informació
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-body-tertiary border-top py-4 mt-auto">
+        <div class="container text-center text-md-start">
+            <div class="row align-items-center">
+                <div class="col-md-6 mb-3 mb-md-0">
+                    <span class="fw-bold text-primary"><i class="bi bi-laptop me-1"></i> FP Informàtica</span>
+                    <p class="text-muted small mb-0 mt-1">Projecte web desenvolupat amb Bootstrap 5.3, HTML5 i JavaScript.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a href="https://github.com" target="_blank" class="btn btn-sm btn-outline-secondary rounded-pill me-2">
+                        <i class="bi bi-github me-1"></i> GitHub Pages
+                    </a>
+                    <span class="text-muted small">&copy; 2026 FP Informàtica</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal Detalls del Cicle Formatiu -->
+    <div class="modal fade" id="cycleModal" tabindex="-1" aria-labelledby="cycleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content border-0 shadow-lg rounded-4">
+                <div class="modal-header border-0 pb-0">
+                    <div>
+                        <span class="badge mb-2" id="modalBadge"></span>
+                        <h4 class="modal-title fw-bold" id="cycleModalLabel"></h4>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tancar"></button>
+                </div>
+                <div class="modal-body py-4">
+                    <p class="lead fs-6 text-muted mb-4" id="modalDescription"></p>
+
+                    <!-- Informació Clau -->
+                    <div class="row g-3 mb-4">
+                        <div class="col-6 col-sm-3">
+                            <div class="p-3 bg-body-tertiary rounded-3 text-center border">
+                                <small class="text-muted d-block mb-1">Durada</small>
+                                <strong id="modalDuration">2000 hores</strong>
+                            </div>
+                        </div>
+                        <div class="col-6 col-sm-3">
+                            <div class="p-3 bg-body-tertiary rounded-3 text-center border">
+                                <small class="text-muted d-block mb-1">Cursos</small>
+                                <strong id="modalYears">2 anys</strong>
+                            </div>
+                        </div>
+                        <div class="col-6 col-sm-3">
+                            <div class="p-3 bg-body-tertiary rounded-3 text-center border">
+                                <small class="text-muted d-block mb-1">Nivell</small>
+                                <strong id="modalLevel">EQF 5</strong>
+                            </div>
+                        </div>
+                        <div class="col-6 col-sm-3">
+                            <div class="p-3 bg-body-tertiary rounded-3 text-center border">
+                                <small class="text-muted d-block mb-1">Pràctiques</small>
+                                <strong id="modalFct">~400 hores</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Taula de Mòduls -->
+                    <h5 class="fw-bold mb-3"><i class="bi bi-journal-text text-primary me-2"></i>Mòduls Professionals (Assignatures)</h5>
+                    <div class="table-responsive mb-4">
+                        <table class="table table-hover table-bordered table-modules rounded-3 overflow-hidden align-middle">
+                            <thead>
+                                <tr>
+                                    <th scope="col" style="width: 10%;">Codi</th>
+                                    <th scope="col">Nom del Mòdul</th>
+                                    <th scope="col" class="text-end" style="width: 20%;">Hores aprox.</th>
+                                </tr>
+                            </thead>
+                            <tbody id="modalModulesTable">
+                                <!-- Es genera dinàmicament -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Sortides Professionals -->
+                    <h5 class="fw-bold mb-3"><i class="bi bi-briefcase text-primary me-2"></i>Sortides Professionals</h5>
+                    <ul class="list-group list-group-flush mb-2 border rounded-3" id="modalCareerList">
+                        <!-- Es genera dinàmicament -->
+                    </ul>
+
+                </div>
+                <div class="modal-footer border-0 pt-0">
+                    <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Tancar</button>
+                    <button type="button" class="btn btn-primary-custom rounded-pill px-4" onclick="alert('Inscripcions obertes durant el període de preinscripció oficial de la Generalitat de Catalunya.')">Inscriure'm / Més info</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5.3 Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Script Llogic Principal -->
+    <script>
+        // Dades dels Cicles Formatius
+        const cyclesData = [
+            {
+                id: 'smx',
+                code: 'SMX',
+                name: 'Sistemes Microinformàtics i Xarxes',
+                level: 'GM',
+                levelName: 'Grau Mitjà',
+                badgeClass: 'badge-gm',
+                icon: 'bi-cpu',
+                shortDesc: 'Apreprèn a muntar equips, instal·lar sistemes operatius, configurar xarxes locals i mantenir la seguretat informàtica.',
+                fullDesc: 'Aquest cicle formatiu de grau mitjà capacita per instal·lar, configurar i mantenir sistemes microinformàtics, aïllats o en xarxa, així com xarxes locals en petits entorns.',
+                duration: '2000 h',
+                years: '2 cursos',
+                eqf: 'EQF 4',
+                fct: '383 h',
+                modules: [
+                    { code: 'MP01', name: 'Manteniment de maquinari', hours: '165 h' },
+                    { code: 'MP02', name: 'Sistemes operatius monopost', hours: '132 h' },
+                    { code: 'MP03', name: 'Aplicacions ofimàtiques', hours: '231 h' },
+                    { code: 'MP04', name: 'Sistemes operatius en xarxa', hours: '132 h' },
+                    { code: 'MP07', name: 'Xarxes locals', hours: '165 h' },
+                    { code: 'MP08', name: 'Seguretat informàtica', hours: '99 h' },
+                    { code: 'MP09', name: 'Serveis en xarxa', hours: '132 h' },
+                    { code: 'MP10', name: 'Aplicacions web', hours: '99 h' }
+                ],
+                careers: [
+                    'Tècnic/a de suport informàtic i atenció a usuaris',
+                    'Tècnic/a en instal·lació i manteniment de xarxes locals',
+                    'Muntador/a i reparador/a d\'equips microinformàtics',
+                    'Comercial de productes informàtics'
+                ]
+            },
+            {
+                id: 'dam',
+                code: 'DAM',
+                name: 'Desenvolupament d\'Aplicacions Multiplataforma',
+                level: 'GS',
+                levelName: 'Grau Superior',
+                badgeClass: 'badge-gs',
+                icon: 'bi-phone',
+                shortDesc: 'Especialitza\'t en el desenvolupament d\'aplicacions d\'escriptori, mòbils (Android/iOS) i gestió de bases de dades.',
+                fullDesc: 'Aquest cicle permet desenvolupar, incorporar i mantenir aplicacions informàtiques per a diversos entorns (mòbil, escriptori, empresarial) assegurant el seu accés a les dades de forma segura.',
+                duration: '2000 h',
+                years: '2 cursos',
+                eqf: 'EQF 5',
+                fct: '383 h',
+                modules: [
+                    { code: 'MP01', name: 'Sistemes informàtics', hours: '165 h' },
+                    { code: 'MP02', name: 'Bases de dades', hours: '198 h' },
+                    { code: 'MP03', name: 'Programació (Java/Python)', hours: '297 h' },
+                    { code: 'MP04', name: 'Llenguatges de marques (HTML/XML)', hours: '99 h' },
+                    { code: 'MP06', name: 'Accés a dades', hours: '132 h' },
+                    { code: 'MP07', name: 'Desenvolupament d\'interfícies', hours: '99 h' },
+                    { code: 'MP08', name: 'Programació multimèdia i dispositius mòbils', hours: '132 h' },
+                    { code: 'MP09', name: 'Programació de serveis i processos', hours: '66 h' }
+                ],
+                careers: [
+                    'Desenvolupador/a d\'aplicacions mòbils (Android / iOS)',
+                    'Programador/a d\'aplicacions d\'escriptori i empresarials',
+                    'Desenvolupador/a de programari ERP/CRM',
+                    'Gestor/a de bases de dades'
+                ]
+            },
+            {
+                id: 'daw',
+                code: 'DAW',
+                name: 'Desenvolupament d\'Aplicacions Web',
+                level: 'GS',
+                levelName: 'Grau Superior',
+                badgeClass: 'badge-gs',
+                icon: 'bi-code-slash',
+                shortDesc: 'Crea llocs i plataformes web modernes, dominant tant el desenvolupament Frontend (HTML, CSS, JS) com Backend.',
+                fullDesc: 'Capacita per desenvolupar, implementar i mantenir aplicacions web, amb independència dels codis utilitzats, assegurant-ne l\'accés segur i la usabilitat.',
+                duration: '2000 h',
+                years: '2 cursos',
+                eqf: 'EQF 5',
+                fct: '383 h',
+                modules: [
+                    { code: 'MP02', name: 'Bases de dades', hours: '198 h' },
+                    { code: 'MP03', name: 'Programació', hours: '297 h' },
+                    { code: 'MP04', name: 'Llenguatges de marques', hours: '99 h' },
+                    { code: 'MP06', name: 'Desenvolupament web en entorn client (JS, React/Angular)', hours: '165 h' },
+                    { code: 'MP07', name: 'Desenvolupament web en entorn servidor (PHP, Node, Python)', hours: '165 h' },
+                    { code: 'MP08', name: 'Desplegament d\'aplicacions web', hours: '99 h' },
+                    { code: 'MP09', name: 'Disseny d\'interfícies web', hours: '99 h' }
+                ],
+                careers: [
+                    'Desenvolupador/a Web Full-Stack',
+                    'Programador/a Frontend (JavaScript, Frameworks)',
+                    'Programador/a Backend (Node.js, PHP, Python)',
+                    'Especialista en comerç electrònic (E-commerce)'
+                ]
+            },
+            {
+                id: 'asix',
+                code: 'ASIX',
+                name: 'Administració de Sistemes Informàtics en Xarxa',
+                level: 'GS',
+                levelName: 'Grau Superior',
+                badgeClass: 'badge-gs',
+                icon: 'bi-server',
+                shortDesc: 'Configura i administra servidors (Linux/Windows), xarxes complexes, seguretat i serveis en el núvol (Cloud).',
+                fullDesc: 'Formació adreçada a administrar sistemes operatius, configurar el programari de base, garantir la seguretat de la xarxa i dels servidors, així com gestionar serveis d\'internet i Cloud Computing.',
+                duration: '2000 h',
+                years: '2 cursos',
+                eqf: 'EQF 5',
+                fct: '383 h',
+                modules: [
+                    { code: 'MP01', name: 'Implantació de sistemes operatius', hours: '231 h' },
+                    { code: 'MP02', name: 'Gestió de bases de dades', hours: '165 h' },
+                    { code: 'MP03', name: 'Planificació i administració de xarxes', hours: '198 h' },
+                    { code: 'MP04', name: 'Llenguatges de marques i gestió d\'informació', hours: '99 h' },
+                    { code: 'MP06', name: 'Administració de sistemes operatius (Linux/Windows)', hours: '132 h' },
+                    { code: 'MP07', name: 'Serveis de xarxa i Internet', hours: '132 h' },
+                    { code: 'MP08', name: 'Seguretat i alta disponibilitat', hours: '99 h' },
+                    { code: 'MP09', name: 'Implantació d\'aplicacions web', hours: '99 h' }
+                ],
+                careers: [
+                    'Administrador/a de sistemes i xarxes',
+                    'Responsable d\'entorns Cloud i servidors',
+                    'Tècnic/a de seguretat informàtica / Ciberseguretat',
+                    'Gestor/a de serveis de correu, web i bases de dades'
+                ]
+            }
+        ];
+
+        // Element DOM
+        const cyclesGrid = document.getElementById('cyclesGrid');
+        const searchInput = document.getElementById('searchInput');
+        const filterPills = document.getElementById('filterPills');
+        const noResults = document.getElementById('noResults');
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+
+        let currentFilter = 'all';
+        let currentSearch = '';
+
+        // Renderitzar les targetes
+        function renderCycles() {
+            cyclesGrid.innerHTML = '';
+            
+            const filteredCycles = cyclesData.filter(cycle => {
+                const matchesFilter = currentFilter === 'all' || cycle.level === currentFilter;
+                const searchLower = currentSearch.toLowerCase();
+                const matchesSearch = cycle.name.toLowerCase().includes(searchLower) ||
+                                      cycle.code.toLowerCase().includes(searchLower) ||
+                                      cycle.shortDesc.toLowerCase().includes(searchLower) ||
+                                      cycle.modules.some(m => m.name.toLowerCase().includes(searchLower));
+                return matchesFilter && matchesSearch;
+            });
+
+            if (filteredCycles.length === 0) {
+                noResults.classList.remove('d-none');
+            } else {
+                noResults.classList.add('d-none');
+            }
+
+            filteredCycles.forEach(cycle => {
+                const cardCol = document.createElement('div');
+                cardCol.className = 'col-md-6 col-lg-6 col-xl-3 d-flex align-items-stretch';
+                
+                cardCol.innerHTML = `
+                    <div class="card cycle-card w-100 p-3 d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="card-badge ${cycle.badgeClass}">${cycle.levelName}</span>
+                                <span class="fw-bold text-muted fs-6">${cycle.code}</span>
+                            </div>
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <i class="bi ${cycle.icon} text-primary fs-3"></i>
+                                <h4 class="h5 fw-bold mb-0">${cycle.name}</h4>
+                            </div>
+                            <p class="text-muted small mt-2 mb-3">
+                                ${cycle.shortDesc}
+                            </p>
+                        </div>
+                        <div>
+                            <div class="d-flex justify-content-between text-muted small border-top pt-3 mb-3">
+                                <span><i class="bi bi-clock me-1"></i>${cycle.duration}</span>
+                                <span><i class="bi bi-calendar3 me-1"></i>${cycle.years}</span>
+                            </div>
+                            <button class="btn btn-outline-primary w-100 rounded-pill btn-sm fw-semibold" onclick="openCycleModal('${cycle.id}')">
+                                <i class="bi bi-eye me-1"></i> Veure mòduls i sortides
+                            </button>
+                        </div>
+                    </div>
+                `;
+                cyclesGrid.appendChild(cardCol);
+            });
+        }
+
+        // Obrir i omplir el modal amb la informació del cicle
+        function openCycleModal(cycleId) {
+            const cycle = cyclesData.find(c => c.id === cycleId);
+            if (!cycle) return;
+
+            document.getElementById('cycleModalLabel').textContent = `${cycle.code} - ${cycle.name}`;
+            document.getElementById('modalDescription').textContent = cycle.fullDesc;
+            
+            const modalBadge = document.getElementById('modalBadge');
+            modalBadge.textContent = cycle.levelName;
+            modalBadge.className = `badge ${cycle.badgeClass}`;
+
+            document.getElementById('modalDuration').textContent = cycle.duration;
+            document.getElementById('modalYears').textContent = cycle.years;
+            document.getElementById('modalLevel').textContent = cycle.eqf;
+            document.getElementById('modalFct').textContent = cycle.fct;
+
+            // Omplir taula de mòduls
+            const modulesTable = document.getElementById('modalModulesTable');
+            modulesTable.innerHTML = '';
+            cycle.modules.forEach(mod => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="fw-bold text-primary">${mod.code}</td>
+                    <td>${mod.name}</td>
+                    <td class="text-end text-muted">${mod.hours}</td>
+                `;
+                modulesTable.appendChild(tr);
+            });
+
+            // Omplir llista de sortides professionals
+            const careerList = document.getElementById('modalCareerList');
+            careerList.innerHTML = '';
+            cycle.careers.forEach(career => {
+                const li = document.createElement('li');
+                li.className = 'list-group-item bg-transparent d-flex align-items-center gap-2';
+                li.innerHTML = `<i class="bi bi-check-circle-fill text-success"></i> ${career}`;
+                careerList.appendChild(li);
+            });
+
+            // Mostrar modal
+            const modal = new bootstrap.Modal(document.getElementById('cycleModal'));
+            modal.show();
+        }
+
+        // Esdeveniments de cerca i filtratge
+        searchInput.addEventListener('input', (e) => {
+            currentSearch = e.target.value;
+            renderCycles();
+        });
+
+        filterPills.addEventListener('click', (e) => {
+            if (e.target.tagName === 'BUTTON') {
+                // Eliminar classe active de tots els botons
+                filterPills.querySelectorAll('.nav-link').forEach(btn => btn.classList.remove('active'));
+                // Afegir al boto clicat
+                e.target.classList.add('active');
+                
+                currentFilter = e.target.getAttribute('data-filter');
+                renderCycles();
+            }
+        });
+
+        // Alternar Tema Clar / Fosc
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-bs-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-bs-theme', newTheme);
+            themeIcon.className = newTheme === 'dark' ? 'bi bi-sun' : 'bi bi-moon-stars';
+        });
+
+        // Renderitzar al carregar la pàgina
+        window.addEventListener('DOMContentLoaded', () => {
+            renderCycles();
+        });
+    </script>
+</body>
+</html>
