@@ -1,0 +1,52 @@
+/* CSS Personalitzat Pokédex */
+
+.pokemon-card {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    cursor: pointer;
+}
+
+.pokemon-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2) !important;
+}
+
+/* Ombra per a imatges de Pokémon */
+.drop-shadow {
+    filter: drop-shadow(2px 5px 8px rgba(0, 0, 0, 0.3));
+}
+
+/* Joc - Silueta de Pokémon */
+.pokemon-silhouette {
+    filter: brightness(0) contrast(100%);
+    transition: filter 0.5s ease;
+}
+
+.pokemon-revealed {
+    filter: drop-shadow(2px 5px 8px rgba(0,0,0,0.3));
+}
+
+/* Colors segons tipus de Pokémon */
+.type-fire { background-color: #FD7D24; color: white; }
+.type-water { background-color: #4592C4; color: white; }
+.type-grass { background-color: #9BCC50; color: black; }
+.type-electric { background-color: #EEE608; color: black; }
+.type-ice { background-color: #51C4E7; color: black; }
+.type-fighting { background-color: #D56723; color: white; }
+.type-poison { background-color: #B97FC9; color: white; }
+.type-ground { background-color: #F7DE3F; color: black; }
+.type-flying { background-color: #3DC7EF; color: black; }
+.type-psychic { background-color: #F366B9; color: white; }
+.type-bug { background-color: #729F3F; color: white; }
+.type-rock { background-color: #A38C21; color: white; }
+.type-ghost { background-color: #7B62A3; color: white; }
+.type-dragon { background-color: #F16E57; color: white; }
+.type-steel { background-color: #9EB7B8; color: black; }
+.type-fairy { background-color: #FDB9E9; color: black; }
+.type-normal { background-color: #A4ACAF; color: white; }
+
+.badge-type {
+    text-transform: capitalize;
+    font-size: 0.8rem;
+    padding: 0.4em 0.8em;
+    border-radius: 12px;
+}
