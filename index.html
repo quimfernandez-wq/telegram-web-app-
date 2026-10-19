@@ -1,69 +1,231 @@
 <!DOCTYPE html>
-<html lang="ca">
+<html lang="ca" data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La meva primera pàgina web</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            color: #333;
-            margin: 0;
-            padding: 20px;
-        }
-        header {
-            background-color: #007bff;
-            color: white;
-            padding: 15px;
-            text-align: center;
-            border-radius: 8px;
-        }
-        main {
-            margin-top: 20px;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-        }
-        button {
-            background-color: #28a745;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #218838;
-        }
-    </style>
+    <title>Pokédex Interactiva i Joc de Pokémon</title>
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- CSS Personalitzat -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <header>
-        <h1>Benvingut/da a la meva web!</h1>
-    </header>
+    <!-- Header / Navbar -->
+    <nav class="navbar navbar-expand-lg bg-danger navbar-dark sticky-top shadow">
+        <div class="container">
+            <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="#">
+                <i class="bi bi-disc-fill fs-3 text-warning"></i>
+                <span>Pokédex Catalunya</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 nav-pills" id="pills-tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active text-white" id="pills-pokedex-tab" data-bs-toggle="pill" data-bs-target="#pills-pokedex" type="button" role="tab"><i class="bi bi-grid-3x3-gap-fill me-1"></i> Pokédex</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link text-white" id="pills-favorites-tab" data-bs-toggle="pill" data-bs-target="#pills-favorites" type="button" role="tab"><i class="bi bi-heart-fill me-1"></i> Favorits <span id="fav-badge" class="badge bg-warning text-dark rounded-pill">0</span></button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link text-white" id="pills-game-tab" data-bs-toggle="pill" data-bs-target="#pills-game" type="button" role="tab"><i class="bi bi-controller me-1"></i> Quin és aquest Pokémon?</button>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center gap-2">
+                    <button class="btn btn-outline-light btn-sm" id="theme-toggle" title="Canviar Tema">
+                        <i class="bi bi-moon-stars-fill" id="theme-icon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
 
-    <main>
-        <h2>Sobre aquesta pàgina</h2>
-        <p>Aquest és un exemple de codi HTML simple amb una mica d'estil CSS integrat.</p>
-        
-        <h3>Llista de coses per fer:</h3>
-        <ul>
-            <li>Aprendre HTML5</li>
-            <li>Aprendre CSS</li>
-            <li>Crear projectes genials</li>
-        </ul>
+    <!-- Main Content -->
+    <main class="container py-4">
 
-        <button onclick="saludar()">Clica'm!</button>
+        <div class="tab-content" id="pills-tabContent">
+            
+            <!-- POKÉDEX TAB -->
+            <div class="tab-pane fade show active" id="pills-pokedex" role="tabpanel">
+                <!-- Filtres i Cerca -->
+                <div class="row g-3 mb-4 align-items-center bg-body-tertiary p-3 rounded shadow-sm">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-text bg-primary text-white"><i class="bi bi-search"></i></span>
+                            <input type="text" id="search-input" class="form-control" placeholder="Cerca per nom o número (ex: Pikachu o 25)...">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <select id="type-filter" class="form-select">
+                            <option value="">Tots els Tipus</option>
+                            <option value="fire">Foc (Fire)</option>
+                            <option value="water">Aigua (Water)</option>
+                            <option value="grass">Planta (Grass)</option>
+                            <option value="electric">Elèctric (Electric)</option>
+                            <option value="ice">Gel (Ice)</option>
+                            <option value="fighting">Lluita (Fighting)</option>
+                            <option value="poison">Verí (Poison)</option>
+                            <option value="ground">Terra (Ground)</option>
+                            <option value="flying">Volador (Flying)</option>
+                            <option value="psychic">Psíquic (Psychic)</option>
+                            <option value="bug">Cuc (Bug)</option>
+                            <option value="rock">Roca (Rock)</option>
+                            <option value="ghost">Fantasma (Ghost)</option>
+                            <option value="dragon">Drac (Dragon)</option>
+                            <option value="steel">Acer (Steel)</option>
+                            <option value="fairy">Fada (Fairy)</option>
+                            <option value="normal">Normal</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2 text-end">
+                        <span id="pokedex-count" class="badge bg-secondary p-2 w-100 fs-6">0 Pokémon</span>
+                    </div>
+                </div>
+
+                <!-- Grid de Pokémon -->
+                <div id="pokemon-grid" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+                    <!-- Es carregarà dinàmicament -->
+                </div>
+
+                <!-- Spinner Carregant -->
+                <div id="loading-spinner" class="text-center my-5">
+                    <div class="spinner-border text-danger" style="width: 3rem; height: 3rem;" role="status">
+                        <span class="visually-hidden">Carregant...</span>
+                    </div>
+                    <p class="mt-2 text-muted">Carregant Pokédex des de PokéAPI...</p>
+                </div>
+            </div>
+
+            <!-- FAVORITS TAB -->
+            <div class="tab-pane fade" id="pills-favorites" role="tabpanel">
+                <h2 class="mb-4 d-flex align-items-center gap-2"><i class="bi bi-heart-fill text-danger"></i> Els teus Pokémon Favorits</h2>
+                <div id="favorites-grid" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+                    <!-- Secció de favorits -->
+                </div>
+                <div id="no-favorites" class="text-center py-5">
+                    <i class="bi bi-emoji-frown fs-1 text-muted"></i>
+                    <p class="fs-5 text-muted mt-2">Encara no tens cap Pokémon afegit a favorits.</p>
+                    <p class="text-muted">Clica la icona de cor <i class="bi bi-heart text-danger"></i> a quallever targeta per desar-lo aquí!</p>
+                </div>
+            </div>
+
+            <!-- MINIJOC TAB -->
+            <div class="tab-pane fade" id="pills-game" role="tabpanel">
+                <div class="row justify-content-center">
+                    <div class="col-md-8 col-lg-6 text-center">
+                        <div class="card shadow-lg border-0">
+                            <div class="card-header bg-danger text-white py-3">
+                                <h3 class="m-0 fw-bold"><i class="bi bi-question-circle-fill me-2"></i>Quin és aquest Pokémon?</h3>
+                            </div>
+                            <div class="card-body p-4">
+                                <div class="d-flex justify-content-between mb-3 px-3 py-2 bg-body-tertiary rounded">
+                                    <span class="fw-bold">Puntuació: <span id="game-score" class="text-success fs-5">0</span></span>
+                                    <span class="fw-bold">Ràtxa: <span id="game-streak" class="text-primary fs-5">0</span> 🔥</span>
+                                </div>
+
+                                <div class="game-image-container my-4 py-3 position-relative bg-light rounded shadow-inner">
+                                    <img id="game-pokemon-img" src="" alt="Pokémon" class="img-fluid pokemon-silhouette" style="max-height: 220px;">
+                                    <div id="game-spinner" class="spinner-border text-danger position-absolute top-50 start-50 translate-middle" role="status"></div>
+                                </div>
+
+                                <div id="game-options" class="row g-2 mb-3">
+                                    <!-- Opcions dinàmiques -->
+                                </div>
+
+                                <div id="game-feedback" class="alert d-none my-3 fw-bold" role="alert"></div>
+
+                                <button id="next-pokemon-btn" class="btn btn-primary w-100 py-2 d-none">
+                                    Següent Pokémon <i class="bi bi-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
     </main>
 
-    <script>
-        function saludar() {
-            alert('Hola! Gràcies per visitar la pàgina.');
-        }
-    </script>
+    <!-- Modal Detalls de Pokémon -->
+    <div class="modal fade" id="pokemonModal" tabindex="-1" aria-labelledby="pokemonModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header border-0 pb-0" id="modal-header-bg">
+                    <span class="badge bg-dark fs-6" id="modal-pokemon-id">#000</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tancar"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="row align-items-center">
+                        <div class="col-md-5 text-center">
+                            <img id="modal-pokemon-img" src="" alt="Pokémon" class="img-fluid drop-shadow" style="max-height: 250px;">
+                            <h2 class="text-capitalize fw-bold mt-2" id="modal-pokemon-name">Nom</h2>
+                            <div id="modal-pokemon-types" class="d-flex justify-content-center gap-2 mb-3"></div>
+                        </div>
+                        <div class="col-md-7">
+                            <ul class="nav nav-tabs nav-justified mb-3" id="modalTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="stats-tab" data-bs-toggle="tab" data-bs-target="#stats-tab-pane" type="button">Estadístiques</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="info-tab" data-bs-toggle="tab" data-bs-target="#info-tab-pane" type="button">Info / Habilitats</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="evo-tab" data-bs-toggle="tab" data-bs-target="#evo-tab-pane" type="button">Evolucions</button>
+                                </li>
+                            </ul>
 
+                            <div class="tab-content" id="modalTabContent">
+                                <!-- Estadístiques -->
+                                <div class="tab-pane fade show active" id="stats-tab-pane" role="tabpanel">
+                                    <div id="modal-pokemon-stats"></div>
+                                </div>
+                                <!-- Info i Habilitats -->
+                                <div class="tab-pane fade" id="info-tab-pane" role="tabpanel">
+                                    <div class="row g-2 text-center mb-3">
+                                        <div class="col-6">
+                                            <div class="p-2 border rounded bg-body-tertiary">
+                                                <small class="text-muted d-block">Alçada</small>
+                                                <span class="fw-bold" id="modal-pokemon-height">0 m</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="p-2 border rounded bg-body-tertiary">
+                                                <small class="text-muted d-block">Pes</small>
+                                                <span class="fw-bold" id="modal-pokemon-weight">0 kg</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h6 class="fw-bold"><i class="bi bi-stars"></i> Habilitats:</h6>
+                                    <ul id="modal-pokemon-abilities" class="list-group list-group-flush mb-3"></ul>
+                                </div>
+                                <!-- Evolucions -->
+                                <div class="tab-pane fade" id="evo-tab-pane" role="tabpanel">
+                                    <div id="modal-pokemon-evolutions" class="d-flex justify-content-around align-items-center text-center py-2">
+                                        <!-- Evolucions carregades via JS -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button id="modal-fav-btn" class="btn btn-outline-danger">
+                        <i class="bi bi-heart"></i> Afegir a Favorits
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tancar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5.3 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- JS Personalitzat -->
+    <script src="script.js"></script>
 </body>
 </html>
